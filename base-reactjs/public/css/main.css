@@ -1,0 +1,105 @@
+html {
+  scroll-behavior: smooth;
+  font-family: "Roboto", sans-serif;
+}
+.detail {
+  margin-top: 40px;
+}
+.imgPramary {
+  margin-top: 20px;
+}
+.imgItem {
+  margin-top: 20px;
+  width: 100px;
+  height: 100px;
+  margin-left: 50px;
+}
+.productName {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 1.1;
+  color: #000000;
+}
+.productPrice {
+  margin-top: 20px;
+  color: #5a88ca;
+  font-weight: 700;
+}
+form.cart {
+  margin-bottom: 25px;
+}
+form {
+  display: block;
+  margin-top: 0em;
+}
+.quantity {
+  float: left;
+  margin-right: 15px;
+}
+.quantity input[type="number"] {
+  border: 1px solid #5a88ca;
+  padding: 5px;
+  width: 50px;
+}
+button[type="submit"] {
+  background: none repeat scroll 0 0 #5a88ca;
+  border: medium;
+  color: #fff;
+  padding: 11px 20px;
+  text-transform: uppercase;
+  margin-top: -4px;
+}
+.add_to_cart_button {
+  background: none repeat scroll 0 0 #5a88ca;
+  border: medium;
+  color: #fff;
+  padding: 6px 25px;
+  display: inline-block;
+}
+
+.product-tab {
+  display: inline-block;
+  border-bottom: 1px solid #ddd;
+  list-style: outside none none;
+  margin: 20px 30px;
+  padding: 0;
+  text-align: center;
+}
+.product-tab li.active {
+  background: #5a88ca;
+}
+.product-tab li {
+  display: inline-block;
+  margin-left: 40px;
+}
+.product-tab li.active a {
+  color: #fff;
+}
+.product-tab li a {
+  color: #222;
+  display: block;
+  font-size: 16px;
+  padding: 10px 30px;
+}
+ul {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+.contentProduct {
+  margin-top: -1px;
+}
+.descriptionText {
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+.textContentProduct {
+  margin-top: 10px;
+}

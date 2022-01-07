@@ -1,57 +1,107 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import * as React from 'react';
+import { useState, useCallback } from 'react';
+import { Button, Col, Container, Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { NavLink, RouteComponentProps, useHistory } from 'react-router-dom';
+import { AppState } from '../reducer';
 import { IndexedObject } from '../utils/type';
-import './login.css';
+import { login } from '../reducer/authenReducer';
+import { omit } from '../utils/object';
 
-const LoginPage: React.FC<IndexedObject> = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
+export interface ILoginProps
+  extends StateProps,
+    DispatchProps,
+    RouteComponentProps<IndexedObject> {}
 
-  function handleSubmit(event: { preventDefault: () => void }) {
+const LoginPage: React.FC<ILoginProps> = (props) => {
+  const [validated, setValidated] = useState(false);
+  const [state, setState] = useState({
+    admin: '',
+    password: '',
+    errors: [] as string[],
+  });
+  const history = useHistory();
+
+  const { loading, loginSuccess, account } = props;
+
+  const changeHandler = (e: IndexedObject) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const handleOk = useCallback(() => {
+    if (loginSuccess) {
+      history.push('/admin');
+    }
+  }, [loginSuccess]);
+
+  //handle submit form
+  const handleSubmit = async (event: IndexedObject) => {
     event.preventDefault();
-  }
+    event.stopPropagation();
+    setValidated(true);
+
+    await props.login(omit('errors', state));
+    handleOk();
+  };
 
   return (
     <div className="Article">
-      <h1 className="text-center pt-5">Login</h1>
-      <div className="Login">
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              autoFocus
-              placeholder="Enter email"
-              type="email"
-              value={email}
-              onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
-                setEmail(e.target.value)
-              }
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              placeholder="Password"
-              type="password"
-              value={password}
-              onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
-                setPassword(e.target.value)
-              }
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Remember me" />
-          </Form.Group>
-          <Button size="lg" type="submit" disabled={!validateForm()}>
-            Login
-          </Button>
-        </Form>
+      <div>
+        <Container className="mt-5">
+          <h1>Login</h1>
+          <Form noValidate validated={validated} onSubmit={handleSubmit} className="mt-5">
+            <Form.Group as={Col} md="6" controlId="login">
+              <Form.Label>Admin</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Login Name"
+                required
+                onChange={changeHandler}
+                value={state.admin}
+                name="admin"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide your name.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="6" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                required
+                onChange={changeHandler}
+                value={state.password}
+                name="password"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide your name.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Button type="submit" className="mt-5">
+              Login
+            </Button>
+            <div className="mt-4">
+              <NavLink to="/register">Register</NavLink>
+            </div>
+          </Form>
+        </Container>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+const mapStateToProps = ({ authentication }: AppState) => ({
+  loading: authentication.loading,
+  loginSuccess: authentication.loginSuccess,
+  account: authentication.account,
+});
+
+const mapDispatchToProps = {
+  login,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

@@ -13,7 +13,7 @@ export const mainListItems = (
       </ListItemIcon>
       HomePage
     </Link>
-    <Link className="nav-link" to="/admin">
+    <Link className="nav-link" to="/admin/product">
       <ListItemIcon>
         <DashboardIcon color="primary" />
       </ListItemIcon>

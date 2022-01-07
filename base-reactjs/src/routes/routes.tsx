@@ -20,17 +20,16 @@ const Routes: React.FC<IndexedObject> = () => (
     <Route exact path="/details/:id" component={Details} />
     <PublicRoute exact path="/login" component={LoginPage} />
 
-    <PublicRoute exact path="/admin/category" component={CategoryList} />
-    <PublicRoute exact path="/admin/category/add" component={CategoryAddEdit} />
-    <PublicRoute exact path="/admin/category/edit/:id" component={CategoryAddEdit} />
+    <PrivateRoute exact path="/admin/category" component={CategoryList} />
+    <PrivateRoute exact path="/admin/category/add" component={CategoryAddEdit} />
+    <PrivateRoute exact path="/admin/category/edit/:id" component={CategoryAddEdit} />
 
-    <PublicRoute exact path="/admin/product" component={ProductList} />
-    <PublicRoute exact path="/admin/product/add" component={ProductAddEdit} />
-    <PublicRoute exact path="/admin/product/edit/:id" component={ProductAddEdit} />
+    <PrivateRoute exact path="/admin/product" component={ProductList} />
+    <PrivateRoute exact path="/admin/product/add" component={ProductAddEdit} />
+    <PrivateRoute exact path="/admin/product/edit/:id" component={ProductAddEdit} />
 
-    <PublicRoute exact path="/admin" component={ProductList} />
-    <PublicRoute exact path="/register" component={RegisterPage} />
     <PrivateRoute exact path="/admin" component={ProductList} />
+    <PublicRoute exact path="/register" component={RegisterPage} />
     <Route component={NoMatch} />
   </Switch>
 );

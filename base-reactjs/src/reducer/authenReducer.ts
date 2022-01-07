@@ -4,6 +4,8 @@ import { IndexedObject } from '../utils/type';
 import { FAILURE, REQUEST, SUCCESS } from './action-type.util';
 import { AUTH_TOKEN_KEY } from '../shared/constant/constant';
 import { IAccount } from '../models/account_model';
+import { ICrudPutAction } from '../type/redux-action';
+import { ILogin } from '../models/login_model';
 
 export const ACTION_TYPES = {
   LOGIN: 'authentication/LOGIN',
@@ -18,13 +20,13 @@ const initialState = {
   isAuthenticated: false,
   loginSuccess: false,
   loginError: false, // Errors returned from server side
-  // showModalLogin: false,
+  showModalLogin: false,
   account: {} as IAccount,
   errorMessage: null, // Errors returned from server side
-  // redirectMessage: null,
-  // sessionHasBeenFetched: false,
+  redirectMessage: null,
+  sessionHasBeenFetched: false,
   idToken: null,
-  // logoutUrl: null,
+  logoutUrl: null,
 };
 
 export type AuthenticationState = Readonly<typeof initialState>;
@@ -37,6 +39,10 @@ export default (
 ): AuthenticationState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.LOGIN):
+      return {
+        ...state,
+        loading: true,
+      };
     case REQUEST(ACTION_TYPES.GET_SESSION):
       return {
         ...state,
@@ -46,7 +52,7 @@ export default (
       return {
         ...initialState,
         errorMessage: action.payload,
-        // showModalLogin: true,
+        showModalLogin: true,
         loginError: true,
       };
     case FAILURE(ACTION_TYPES.GET_SESSION):
@@ -54,8 +60,8 @@ export default (
         ...state,
         loading: false,
         isAuthenticated: false,
-        // sessionHasBeenFetched: true,
-        // showModalLogin: true,
+        sessionHasBeenFetched: true,
+        showModalLogin: true,
         errorMessage: action.payload,
       };
     case SUCCESS(ACTION_TYPES.LOGIN):
@@ -63,15 +69,16 @@ export default (
         ...state,
         loading: false,
         loginError: false,
-        // showModalLogin: false,
+        showModalLogin: false,
         loginSuccess: true,
         //TODO: Hard code
+        account: action.payload.payload,
         isAuthenticated: true,
       };
     case ACTION_TYPES.LOGOUT:
       return {
         ...initialState,
-        // showModalLogin: true,
+        showModalLogin: true,
         isAuthenticated: false,
       };
     case SUCCESS(ACTION_TYPES.GET_SESSION): {
@@ -81,21 +88,21 @@ export default (
         ...state,
         isAuthenticated,
         loading: false,
-        // sessionHasBeenFetched: true,
+        sessionHasBeenFetched: true,
         account: action.payload.data,
       };
     }
     case ACTION_TYPES.ERROR_MESSAGE:
       return {
         ...initialState,
-        // showModalLogin: true,
-        // redirectMessage: action.message,
+        showModalLogin: true,
+        redirectMessage: action.message,
       };
     case ACTION_TYPES.CLEAR_AUTH:
       return {
         ...state,
         loading: false,
-        // showModalLogin: true,
+        showModalLogin: true,
         isAuthenticated: false,
       };
     default:
@@ -116,6 +123,46 @@ export const clearAuthToken = () => {
   }
   if (sessionStorage.getItem(AUTH_TOKEN_KEY)) {
     sessionStorage.removeItem(AUTH_TOKEN_KEY);
+  }
+};
+
+export const login: ICrudPutAction<ILogin> = (entity) => async (dispatch: any) => {
+  localStorage.setItem(
+    'account',
+    JSON.stringify({
+      loginName: 'admin',
+      password: 'admin123',
+    }),
+  );
+  const fakeLogin = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const localAccount: string | null = localStorage.getItem('account');
+      if (localAccount) {
+        const account: ILogin = JSON.parse(localAccount);
+        if (entity?.login === account.login && entity?.password === account.password) {
+          resolve({
+            payload: account,
+          });
+        } else {
+          reject({
+            payload: 'Invalid Account',
+          });
+        }
+      } else {
+        reject({
+          payload: 'Invalid Account',
+        });
+      }
+    }, 300);
+  });
+
+  try {
+    return await dispatch({
+      type: ACTION_TYPES.LOGIN,
+      payload: fakeLogin,
+    });
+  } catch (e) {
+    return null;
   }
 };
 

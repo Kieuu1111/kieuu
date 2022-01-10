@@ -28,11 +28,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './Navbar';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { TProduct } from '../../models/product_model';
 import ReactPaginate from 'react-paginate';
+import MainListItems from './Navbar';
 
 export interface IPropsType extends StateProps, DispatchProps, RouteComponentProps<IndexedObject> {}
 
@@ -244,7 +244,9 @@ const ProductListPage: React.FC<IPropsType> = (props) => {
             </IconButton>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            <MainListItems></MainListItems>
+          </List>
           <Divider />
         </Drawer>
         <main className={classes.content}>

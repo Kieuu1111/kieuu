@@ -13,7 +13,7 @@ const PublicRoute: FC<Props> = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/" />)}
+      render={(props) => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/admin" />)}
     />
   );
 };

@@ -45,7 +45,7 @@ const LoginPage: React.FC<ILoginProps> = (props) => {
   };
 
   return (
-    <div className="Article">
+    <div>
       <div>
         <Container className="mt-5">
           <h1>Login</h1>
@@ -78,10 +78,10 @@ const LoginPage: React.FC<ILoginProps> = (props) => {
                 Please provide your name.
               </Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit" className="mt-5">
+            <Button style={{ marginLeft: '1em' }} type="submit" className="mt-5">
               Login
             </Button>
-            <div className="mt-4">
+            <div className="mt-4 ml-3">
               <NavLink to="/register">Register</NavLink>
             </div>
           </Form>

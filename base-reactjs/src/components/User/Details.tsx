@@ -71,7 +71,7 @@ const Details = () => {
             <div>
               <p className="productPrice">${product?.price}</p>
             </div>
-            <form action="index.html" className="cart">
+            <form action="home" className="cart">
               <div className="quantity">
                 <input
                   type="number"
@@ -91,23 +91,23 @@ const Details = () => {
             <div className="select">
               <p>
                 Category:
-                <a className="selectLink" href="index.html">
+                <a className="selectLink" href="#">
                   {idtoName[0]?.name}
                 </a>
                 Tags:
-                <a className="selectLink" href="index.html">
+                <a className="selectLink" href="home">
                   awesome
                 </a>
                 ,
-                <a className="selectLink" href="index.html">
+                <a className="selectLink" href="home">
                   best
                 </a>
                 ,
-                <a className="selectLink" href="index.html">
+                <a className="selectLink" href="home">
                   sale
                 </a>
                 ,
-                <a className="selectLink" href="index.html">
+                <a className="selectLink" href="home">
                   shoes.
                 </a>
               </p>

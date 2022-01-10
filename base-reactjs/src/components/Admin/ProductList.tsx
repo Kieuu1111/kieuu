@@ -186,7 +186,7 @@ const ProductListPage: React.FC<IPropsType> = (props) => {
             ></Button>
             <NavLink
               style={{ color: '#FFF', textDecoration: 'none' }}
-              to={`admin/product/edit/${product.id}`}
+              to={`product/edit/${product.id}`}
             >
               <Button
                 color="primary"

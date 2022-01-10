@@ -9,6 +9,7 @@ import { defaultCateValue, TCategory } from '../../../models/category_model';
 import { AppState } from '../../../reducer';
 import { createEntity, updateEntity, getEntity, reset } from '../../../reducer/categoryReducer';
 import { IndexedObject } from '../../../utils/type';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 export interface IProductCreatedProps extends StateProps, DispatchProps, RouteComponentProps {
   id: string;
@@ -67,17 +68,17 @@ const CategoryAddEdit = (props: IndexedObject) => {
           <Typography variant="h4" gutterBottom>
             Category
           </Typography>
-          <Form onSubmit={saveEntity}>
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Category Name</InputLabel>
-              <Input
-                id="name"
-                name="name"
-                fullWidth
-                value={categoryView?.name}
-                onChange={handleInputChange}
-              />
-            </FormControl>
+          <ValidatorForm onSubmit={saveEntity} onError={(errors) => console.log(errors)}>
+            <TextValidator
+              style={{ marginBottom: '20px' }}
+              label="Categgory Name"
+              name="name"
+              fullWidth
+              value={categoryView?.name}
+              onChange={handleInputChange}
+              validators={['required']}
+              errorMessages={['This field is required']}
+            />
             <FormControl fullWidth margin="normal">
               <div className="wrapButton">
                 <Button variant="success" type="submit">
@@ -90,7 +91,7 @@ const CategoryAddEdit = (props: IndexedObject) => {
                 </Button>
               </div>
             </FormControl>
-          </Form>
+          </ValidatorForm>
         </Paper>
       </Grid>
     </Grid>

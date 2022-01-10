@@ -34,7 +34,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
     console.log('product', product);
 
     if (updateSuccess) {
-      history.push('/admin');
+      history.push('/admin/product');
     }
 
     if (product && product.id) {

@@ -51,11 +51,11 @@ const Details = () => {
                 Home
               </a>
               /
-              <a className="subNavText" href="/">
+              <a className="subNavText" href="#">
                 {idtoName[0]?.name}
               </a>
               /
-              <a className="subNavText" href="/">
+              <a className="subNavText" href="#">
                 {product?.name}
               </a>
             </div>
@@ -95,19 +95,19 @@ const Details = () => {
                   {idtoName[0]?.name}
                 </a>
                 Tags:
-                <a className="selectLink" href="home">
+                <a className="selectLink" href="#">
                   awesome
                 </a>
                 ,
-                <a className="selectLink" href="home">
+                <a className="selectLink" href="#">
                   best
                 </a>
                 ,
-                <a className="selectLink" href="home">
+                <a className="selectLink" href="#">
                   sale
                 </a>
                 ,
-                <a className="selectLink" href="home">
+                <a className="selectLink" href="#">
                   shoes.
                 </a>
               </p>

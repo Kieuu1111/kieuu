@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { FormControl, Grid, InputLabel, MenuItem, Paper, Select } from '@material-ui/core';
+import {
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+} from '@material-ui/core';
 import { Typography } from '@mui/material';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { useEffect, useState } from 'react';
@@ -56,7 +64,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
   };
 
   const handleInputChange = (event: any) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setProductView((prevProps: any) => ({
       ...prevProps,
       [event.target.name]: event.target.value,
@@ -67,7 +75,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
     props.getAllCategories();
   }, []);
 
-  const onChangeSellect = (event: any) => {
+  const onChangeSelect = (event: any) => {
     setProductView((prevProps: any) => ({
       ...prevProps,
       categoryId: event.target.value,
@@ -89,8 +97,8 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
               fullWidth
               value={productView?.name}
               onChange={handleInputChange}
-              validators={['required']}
-              errorMessages={['This field is required']}
+              validators={['required', 'matchRegexp:^[a-zA-Z0-9._]{1,255}$']}
+              errorMessages={['This field is required, maxium length is 20 characters']}
             />
 
             <TextValidator
@@ -100,7 +108,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
               fullWidth
               value={productView?.price}
               onChange={handleInputChange}
-              validators={['minNumber:0']}
+              validators={['required', 'minNumber:0', 'matchRegexp:^[0-9]*$']}
               errorMessages={['Price is not valid']}
             />
             <TextValidator
@@ -110,7 +118,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
               fullWidth
               value={productView?.qty}
               onChange={handleInputChange}
-              validators={['minNumber:0']}
+              validators={['required', 'minNumber:0', 'matchRegexp:^[0-9]*$']}
               errorMessages={['Quantity is not valid']}
             />
             <TextValidator
@@ -123,15 +131,14 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
               validators={['required']}
               errorMessages={['This field is required']}
             />
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Category Name</InputLabel>
+            <FormControl fullWidth margin="normal" required>
+              <InputLabel id="categoryId">Category Name</InputLabel>
               <Select
-                displayEmpty
-                name="categoryId"
+                label="categoryId"
                 labelId="categoryId"
                 id="categoryId"
                 value={productView?.categoryId}
-                onChange={onChangeSellect}
+                onChange={onChangeSelect}
               >
                 {categories?.map((option) => {
                   return (
@@ -142,6 +149,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
                   );
                 })}
               </Select>
+              <FormHelperText>Select a category</FormHelperText>
             </FormControl>
             <TextValidator
               style={{ marginTop: '20px', marginBottom: '20px' }}
@@ -168,7 +176,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
                   {product?.id == 0 ? 'Add new product ' : 'Update your product'}
                 </Button>{' '}
                 <Button variant="danger" type="submit">
-                  <NavLink style={{ color: '#FFF', textDecoration: 'none' }} to="/admin">
+                  <NavLink style={{ color: '#FFF', textDecoration: 'none' }} to="/admin/product">
                     CANCEL
                   </NavLink>
                 </Button>

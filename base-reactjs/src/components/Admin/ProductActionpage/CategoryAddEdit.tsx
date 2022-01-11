@@ -76,7 +76,7 @@ const CategoryAddEdit = (props: IndexedObject) => {
               fullWidth
               value={categoryView?.name}
               onChange={handleInputChange}
-              validators={['required']}
+              validators={['matchRegexp:^[a-zA-Z0-9._]{1,20}$']}
               errorMessages={['This field is required']}
             />
             <FormControl fullWidth margin="normal">

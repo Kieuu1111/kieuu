@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const location = useLocation();
-  // const isProductDetail = location.pathname === '/product-details/1/Bonneville.html';
   const isHome = location.pathname === '/home';
 
   return (
@@ -71,7 +70,7 @@ export default function Header() {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className="nav-link" to="/admin">
+                      <Link className="nav-link" to="/admin/product">
                         Admin
                       </Link>
                     </li>

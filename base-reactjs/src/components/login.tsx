@@ -30,7 +30,7 @@ const LoginPage: React.FC<ILoginProps> = (props) => {
 
   const handleOk = useCallback(() => {
     if (loginSuccess) {
-      history.push('/admin');
+      history.push('/admin/product');
     }
   }, [loginSuccess]);
 

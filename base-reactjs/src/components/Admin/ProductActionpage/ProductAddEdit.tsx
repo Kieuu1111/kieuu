@@ -1,15 +1,23 @@
-import * as React from 'react';
-import { FormControl, Grid, InputLabel, MenuItem, Paper, Select } from '@material-ui/core';
+import {
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+} from '@material-ui/core';
 import { Typography } from '@mui/material';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import { connect } from 'react-redux';
 import { NavLink, RouteComponentProps, useHistory, useParams } from 'react-router-dom';
 import { defaultProductValue, TProduct } from '../../../models/product_model';
 import { AppState } from '../../../reducer';
-import { createEntity, updateEntity, getEntity, reset } from '../../../reducer/productReducer';
 import { getAllCategories } from '../../../reducer/categoryReducer';
+import { createEntity, getEntity, reset, updateEntity } from '../../../reducer/productReducer';
 
 export interface IProductCreatedProps extends StateProps, DispatchProps, RouteComponentProps {
   id: string;
@@ -23,6 +31,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
 
   const [productView, setProductView] = useState<TProduct>(defaultProductValue);
 
+  const [isValidate, setIsValidate] = useState(true);
   useEffect(() => {
     // neu co id => goi api
     if (Number(id) != 0) {
@@ -63,11 +72,21 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
     }));
   };
 
+  const handleClick = () => {
+    if (productView?.categoryId === 0) {
+      setIsValidate(false);
+      return false;
+    }
+  };
+
   useEffect(() => {
     props.getAllCategories();
   }, []);
 
   const onChangeSellect = (event: any) => {
+    if (event.target.value !== 0) {
+      setIsValidate(true);
+    }
     setProductView((prevProps: any) => ({
       ...prevProps,
       categoryId: event.target.value,
@@ -123,7 +142,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
               validators={['required']}
               errorMessages={['This field is required']}
             />
-            <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal" error={!isValidate}>
               <InputLabel>Category Name</InputLabel>
               <Select
                 displayEmpty
@@ -142,6 +161,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
                   );
                 })}
               </Select>
+              {!isValidate && <FormHelperText>Select a category</FormHelperText>}
             </FormControl>
             <TextValidator
               style={{ marginTop: '20px', marginBottom: '20px' }}
@@ -164,7 +184,7 @@ const ProductAddEdit = (props: IProductCreatedProps) => {
             />
             <FormControl fullWidth margin="normal">
               <div className="wrapButton">
-                <Button variant="success" type="submit">
+                <Button variant="success" type="submit" onClick={handleClick}>
                   {product?.id == 0 ? 'Add new product ' : 'Update your product'}
                 </Button>{' '}
                 <Button variant="danger" type="submit">
